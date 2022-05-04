@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <title>Calculator</title>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+
+    <script type="text/babel">
+
+
+        function Calculator() {
+            const [x, setX] = React.useState(0);
+            const [y, setY] = React.useState(0);
+
+
+
+            return (
+                <div>
+                    <div>
+                        <input type='number' value={x} onChange={(e) => setX(e.target.value)} />
+                    </div>
+
+                    <div>
+                        <input type='number' value={y} onChange={(e) => setY(e.target.value)} />
+                    </div>
+                    <h2>X * Y = {x * y}</h2>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <Calculator />,
+            document.getElementById('root'),
+        );
+
+    </script>
+
+</body>
+
+</html>

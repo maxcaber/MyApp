@@ -20,16 +20,18 @@
 
 		function Customers() {
 			const [customers, setCustomers] = React.useState([]);
-			React.useEffect(getCustomers);
+			const [newCust, setNewCust] = React.useState({ firstName: '', lastName: '' });
+			React.useEffect(getCustomers, []);
 
 			function getCustomers() {
-				axios.get("/api/MyApp/GetCustomers").then(function (response) {
+				axios.get("/api/MyApp/DBGetCustomers").then(function (response) {
 					setCustomers(response.data);
 				})
 			}
-			
+
 			function addCustomer() {
-				axios.post("/api/MyApp/AddCustomer",{firstName:'Ruffles',lastName:'BlackDog'}).then(function (response) {
+				axios.post("/api/MyApp/AddCustomer", newCust).then(function (response) {
+					setNewCust({ firstName: '', lastName: '' });
 					setCustomers(response.data);
 				})
 			}
@@ -38,7 +40,13 @@
 				<div>
 					<h2>Customer Count:{customers.length}</h2>
 					<div>
-						<button onClick={addCustomer}>Click me</button>					
+						<table>
+							<tbody>
+								<tr><td>First Name:</td><td><input type='text' value={newCust.firstName} onChange={(e) => setNewCust({ ...newCust, firstName: e.target.value })} /></td></tr>
+								<tr><td>Last Name:</td><td><input type='text' value={newCust.lastName} onChange={(e) => setNewCust({ ...newCust, lastName: e.target.value })} /></td></tr>
+							</tbody>
+						</table>
+						<button onClick={addCustomer}>Click me</button>
 					</div>
 					<table>
 						<thead>

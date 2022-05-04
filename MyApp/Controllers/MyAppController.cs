@@ -59,12 +59,12 @@ namespace MyApp.Controllers
 		}
 		
 		[HttpPost]
-		public List<Customer> AddCustomer(Customer c)
+		public List<Customer> AddCustomer(Customer cust)
 		{
 			List<Customer> customers = new List<Customer>();
 			SqlConnection cn = new SqlConnection(@"Server=localhost\SQLEXPRESS;Database=Customers;Trusted_Connection=True;");
 			cn.Open();
-			SqlCommand cmAdd = new SqlCommand("Insert Into Customer(firstName,LastName) Values('" + c.firstName "','" + c.lastName + "'",cn);
+			SqlCommand cmAdd = new SqlCommand("Insert Into Customer(firstName,LastName) Values('" + cust.firstName + "','" + cust.lastName + "')",cn);
 			cmAdd.ExecuteNonQuery();
 			cmAdd.Dispose();
 			SqlCommand cm = new SqlCommand("Select * from Customer",cn);
