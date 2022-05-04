@@ -57,6 +57,28 @@ namespace MyApp.Controllers
 			}
 			return customers;
 		}
+		
+		[HttpPost]
+		public List<Customer> AddCustomer(Customer c)
+		{
+			List<Customer> customers = new List<Customer>();
+			SqlConnection cn = new SqlConnection(@"Server=localhost\SQLEXPRESS;Database=Customers;Trusted_Connection=True;");
+			cn.Open();
+			SqlCommand cmAdd = new SqlCommand("Insert Into Customer(firstName,LastName) Values('" + c.firstName "','" + c.lastName + "'",cn);
+			cmAdd.ExecuteNonQuery();
+			cmAdd.Dispose();
+			SqlCommand cm = new SqlCommand("Select * from Customer",cn);
+			SqlDataReader dr = cm.ExecuteReader();
+			while (dr.Read())
+			{
+				Customer c = new Customer();
+				c.id = (int)dr["id"];
+				c.firstName = (string)dr["firstName"];
+				c.lastName = (string)dr["lastName"];
+				customers.Add(c);
+			}
+			return customers;
+		}
 
 	}
 }
