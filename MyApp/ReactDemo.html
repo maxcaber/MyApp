@@ -27,10 +27,19 @@
 					setCustomers(response.data);
 				})
 			}
+			
+			function addCustomer() {
+				axios.post("/api/MyApp/AddCustomer",{firstName:'Ruffles',lastName:'BlackDog'}).then(function (response) {
+					setCustomers(response.data);
+				})
+			}
 
 			return (
 				<div>
 					<h2>Customer Count:{customers.length}</h2>
+					<div>
+						<button onClick={addCustomer}>Click me</button>					
+					</div>
 					<table>
 						<thead>
 							<tr><td>First Name</td><td>Last Name</td></tr>
