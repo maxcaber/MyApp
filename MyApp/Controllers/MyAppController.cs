@@ -59,25 +59,27 @@ namespace MyApp.Controllers
 		}
 		
 		[HttpPost]
-		public List<Customer> AddCustomer(Customer cust)
+		public Customer AddCustomer(Customer cust)
+		{
+			SqlConnection cn = new SqlConnection(@"Server=localhost\SQLEXPRESS;Database=Customers;Trusted_Connection=True;");
+			cn.Open();
+			string sql = "Insert Into Customer(firstName,LastName) Values('" + cust.firstName + "','" + cust.lastName + "') ;SELECT CAST(scope_identity() AS int)";
+			SqlCommand cmAdd = new SqlCommand(sql, cn);
+			cust.id = (int)cmAdd.ExecuteScalar();
+			cmAdd.Dispose();
+			return cust;
+		}
+
+		[HttpPost]
+		public Customer UpdateCustomer(Customer cust)
 		{
 			List<Customer> customers = new List<Customer>();
 			SqlConnection cn = new SqlConnection(@"Server=localhost\SQLEXPRESS;Database=Customers;Trusted_Connection=True;");
 			cn.Open();
-			SqlCommand cmAdd = new SqlCommand("Insert Into Customer(firstName,LastName) Values('" + cust.firstName + "','" + cust.lastName + "')",cn);
+			SqlCommand cmAdd = new SqlCommand("Update Customer set FirstName ='" + cust.firstName + "', LastName ='" + cust.lastName + "' Where ID = " + cust.id, cn);
 			cmAdd.ExecuteNonQuery();
 			cmAdd.Dispose();
-			SqlCommand cm = new SqlCommand("Select * from Customer",cn);
-			SqlDataReader dr = cm.ExecuteReader();
-			while (dr.Read())
-			{
-				Customer c = new Customer();
-				c.id = (int)dr["id"];
-				c.firstName = (string)dr["firstName"];
-				c.lastName = (string)dr["lastName"];
-				customers.Add(c);
-			}
-			return customers;
+			return cust;
 		}
 
 	}
